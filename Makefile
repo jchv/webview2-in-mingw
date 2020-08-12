@@ -19,7 +19,7 @@ endif
 
 all: $(OUT)
 
-$(OUT): src/main.cpp src/event.cpp
+$(OUT): Src/main.cpp Src/event.cpp
 	$(MKDIRP) $(OUTDIR)
 	$(CXX) $(CFLAGS) $^ $(LDFLAGS) -o $@
 	$(COPY) ./WebView/x64/WebView2Loader.dll $(OUTDIR)/WebView2Loader.dll
