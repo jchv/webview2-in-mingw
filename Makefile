@@ -1,9 +1,28 @@
-all: webviewdemo.exe
+OUTDIR := Out/mingw-w64
+OUT := $(OUTDIR)/webview2-mingw.exe
 
-flags += 
-ifeq ($(static),true)
-	flags += -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
+MKDIRP := mkdir -p
+COPY := cp
+RMF := rm -f
+
+CFLAGS += -I./WebView/include
+ifeq ($(debug),true)
+	CFLAGS += -g
+else
+	CFLAGS += -O3
 endif
 
-webviewdemo.exe: main.cpp event.cpp
-	$(CXX) -g $^ -L. -lWebView2Loader $(flags) -mwindows -o $@
+LDFLAGS += -L./WebView/x64 -lWebView2Loader -mwindows
+ifeq ($(static),true)
+	LDFLAGS += -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
+endif
+
+all: $(OUT)
+
+$(OUT): src/main.cpp src/event.cpp
+	$(MKDIRP) $(OUTDIR)
+	$(CXX) $(CFLAGS) $^ $(LDFLAGS) -o $@
+	$(COPY) ./WebView/x64/WebView2Loader.dll $(OUTDIR)/WebView2Loader.dll
+
+clean:
+	$(RMF) $(OUT) $(OUTDIR)/WebView2Loader.dll

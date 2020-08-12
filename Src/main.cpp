@@ -128,8 +128,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			FatalError(TEXT("Failed to create environment?"));
 		}
-		created_environment->lpVtbl->CreateCoreWebView2Controller(created_environment, hWnd,
-		                                                          &handler.Intf.ControllerCompletedHandler);
+		created_environment->lpVtbl->CreateCoreWebView2Controller(created_environment, hWnd, &handler);
 		return S_OK;
 	};
 
@@ -152,7 +151,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		nullptr,
 		TStrToWStr(szDataPath).c_str(),
 		nullptr,
-		&handler.Intf.EnvironmentCompletedHandler
+		&handler
 	);
 	if (FAILED(result))
 	{

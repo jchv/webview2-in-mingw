@@ -4,17 +4,8 @@
 
 #include "WebView2.h"
 
-// This is a separate class because it needs to be standard-layout.
-struct EventInterfaces
-{
-	EventInterfaces(class EventHandler* parent);
-
-	class EventHandler* Parent;
-	ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler EnvironmentCompletedHandler{};
-	ICoreWebView2CreateCoreWebView2ControllerCompletedHandler ControllerCompletedHandler{};
-};
-
-class EventHandler
+class EventHandler : public ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler,
+                     public ICoreWebView2CreateCoreWebView2ControllerCompletedHandler
 {
 public:
 	EventHandler();
@@ -27,6 +18,4 @@ public:
 
 	std::function<HRESULT(HRESULT result, ICoreWebView2Environment* created_environment)> EnvironmentCompleted;
 	std::function<HRESULT(HRESULT result, ICoreWebView2Controller* controller)> ControllerCompleted;
-
-	EventInterfaces Intf;
 };

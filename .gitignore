@@ -1,1 +1,5 @@
-/webviewdemo.exe
+*.exe
+/Out
+/Obj
+.vs
+*.user
